@@ -117,15 +117,11 @@ img {
   margin-top: 0.1rem;
 }
 
-.brand-mark__badge {
+.brand-mark__logo {
   width: 2.8rem;
   height: 2.8rem;
-  display: grid;
-  place-items: center;
   border-radius: 18px;
-  background: linear-gradient(135deg, var(--secondary), #245f8f);
-  color: #fff;
-  font-size: 0.95rem;
+  object-fit: cover;
   box-shadow: 0 10px 25px rgba(13, 59, 102, 0.26);
 }
 
@@ -554,50 +550,207 @@ img {
 }
 
 .certificate-card {
-  max-width: 860px;
+  width: 100%;
+  max-width: 1100px;
   margin: 0 auto;
   overflow: hidden;
 }
 
+.certificate-page {
+  gap: 1.25rem;
+}
+
+.certificate-toolbar,
+.certificate-note {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.certificate-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.certificate-note p {
+  margin: 0;
+}
+
 .certificate-surface {
-  padding: 2.2rem;
+  padding: 1rem;
   border-radius: 26px;
   background:
-    linear-gradient(135deg, rgba(13, 59, 102, 0.96), rgba(25, 85, 121, 0.96)),
-    linear-gradient(180deg, #fff, #fff);
+    radial-gradient(circle at top left, rgba(217, 109, 41, 0.16), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(13, 59, 102, 0.14), transparent 22%),
+    linear-gradient(135deg, #fffdf9, #fff8ef);
+  color: var(--text);
+  border: 1px solid rgba(13, 59, 102, 0.08);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.certificate-frame {
+  min-height: 700px;
+  display: grid;
+  gap: 2.2rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 12px solid rgba(13, 59, 102, 0.08);
+  box-shadow: inset 0 0 0 2px rgba(217, 109, 41, 0.22);
+}
+
+.certificate-header,
+.certificate-footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.certificate-label,
+.certificate-kicker {
+  display: block;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.certificate-label {
+  color: var(--secondary);
+}
+
+.certificate-subtitle {
+  margin: 0.45rem 0 0;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+.certificate-seal {
+  width: 5.5rem;
+  height: 5.5rem;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--secondary), #245f8f);
+  border: 6px solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 14px 30px rgba(13, 59, 102, 0.2);
   color: #fff;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.certificate-body {
+  max-width: 760px;
+  margin: 0 auto;
+  display: grid;
+  gap: 0.9rem;
+  text-align: center;
+  align-content: center;
+}
+
+.certificate-kicker {
+  color: var(--primary-deep);
 }
 
 .certificate-surface h1 {
-  margin: 0 0 0.5rem;
+  margin: 0;
   font-family: "Fraunces", Georgia, serif;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2.5rem, 5vw, 4.2rem);
+  line-height: 1.04;
+  color: var(--secondary);
 }
 
 .certificate-surface p {
-  color: rgba(255, 255, 255, 0.86);
   line-height: 1.75;
+}
+
+.certificate-copy {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 1.05rem;
 }
 
 .certificate-name {
   display: inline-block;
-  padding: 0.45rem 0 0.25rem;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.32);
-  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  margin: 0.15rem auto 0.45rem;
+  padding: 0 0 0.4rem;
+  border-bottom: 2px solid rgba(13, 59, 102, 0.2);
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3.4rem);
   font-weight: 800;
+  color: var(--text);
+}
+
+.certificate-course {
+  margin: 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.65rem, 4vw, 2.5rem);
+  line-height: 1.15;
+  color: var(--primary-deep);
+}
+
+.certificate-footer {
+  align-items: flex-end;
+}
+
+.certificate-signature {
+  min-width: 230px;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.certificate-signature__line {
+  width: min(100%, 220px);
+  height: 1px;
+  display: block;
+  margin-bottom: 0.45rem;
+  background: rgba(24, 33, 47, 0.28);
+}
+
+.certificate-signature strong {
+  color: var(--secondary);
+}
+
+.certificate-signature span:last-child {
+  color: var(--text-soft);
 }
 
 .certificate-meta {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(2, minmax(210px, 1fr));
   gap: 1rem;
-  margin-top: 1.5rem;
 }
 
 .certificate-meta div {
   padding: 0.95rem 1rem;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(13, 59, 102, 0.05);
+  border: 1px solid rgba(13, 59, 102, 0.08);
+}
+
+.certificate-meta span {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.certificate-meta strong {
+  display: block;
+  color: var(--secondary);
+  overflow-wrap: anywhere;
 }
 
 .dashboard-card,
@@ -663,6 +816,17 @@ img {
     grid-template-columns: 1fr;
   }
 
+  .certificate-toolbar,
+  .certificate-header,
+  .certificate-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .certificate-seal {
+    align-self: flex-start;
+  }
+
   .site-header__inner {
     border-radius: 28px;
   }
@@ -694,15 +858,36 @@ img {
     width: 100%;
   }
 
+  .certificate-surface {
+    padding: 0.65rem;
+  }
+
+  .certificate-frame {
+    min-height: auto;
+    gap: 1.5rem;
+    padding: 1.3rem;
+    border-width: 8px;
+  }
+
+  .certificate-meta {
+    grid-template-columns: 1fr;
+  }
+
   .user-chip {
     width: 100%;
     justify-content: space-between;
   }
 }
 
+@page {
+  size: landscape;
+  margin: 10mm;
+}
+
 @media print {
   .site-header,
   .site-footer,
+  .no-print,
   .result-actions,
   .button,
   .page-background {
@@ -713,12 +898,30 @@ img {
     background: #ffffff;
   }
 
-  .page-content {
+  .page-content,
+  .page-section {
     padding: 0;
   }
 
   .certificate-card {
+    max-width: none;
+    padding: 0;
+    background: transparent;
     box-shadow: none;
     border: none;
+    backdrop-filter: none;
+  }
+
+  .certificate-surface {
+    padding: 0;
+    border: none;
+    background: #ffffff;
+  }
+
+  .certificate-frame {
+    min-height: auto;
+    break-inside: avoid;
+    background: #ffffff;
+    box-shadow: none;
   }
 }

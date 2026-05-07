@@ -1,24 +1,43 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { loginUser, registerUser } from "../services/authService";
 
 const AuthContext = createContext(null);
 const STORAGE_KEY = "skillforge_auth";
+const EMPTY_AUTH = { token: "", user: null };
 
 const readStoredAuth = () => {
   try {
     const storedValue = localStorage.getItem(STORAGE_KEY);
-    return storedValue ? JSON.parse(storedValue) : { token: "", user: null };
+    const parsedValue = storedValue ? JSON.parse(storedValue) : EMPTY_AUTH;
+
+    return parsedValue?.token && parsedValue?.user ? parsedValue : EMPTY_AUTH;
   } catch (_error) {
-    return { token: "", user: null };
+    return EMPTY_AUTH;
   }
 };
 
+const normalizeAuthResponse = (response) => {
+  const nextToken = response?.token || response?.data?.token || "";
+  const nextUser = response?.user || response?.data?.user || null;
+
+  return {
+    ...response,
+    token: nextToken,
+    user: nextUser
+  };
+};
+
 export function AuthProvider({ children }) {
-  const storedAuth = readStoredAuth();
+  const [storedAuth] = useState(readStoredAuth);
   const [token, setToken] = useState(storedAuth.token || "");
   const [user, setUser] = useState(storedAuth.user || null);
 
   const saveAuth = (nextToken, nextUser) => {
+    if (!nextToken || !nextUser) {
+      clearAuth();
+      return;
+    }
+
     setToken(nextToken);
     setUser(nextUser);
     localStorage.setItem(
@@ -39,14 +58,16 @@ export function AuthProvider({ children }) {
 
   const login = async (credentials) => {
     const response = await loginUser(credentials);
-    saveAuth(response.token, response.user);
-    return response;
+    const authResponse = normalizeAuthResponse(response);
+    saveAuth(authResponse.token, authResponse.user);
+    return authResponse;
   };
 
   const register = async (payload) => {
     const response = await registerUser(payload);
-    saveAuth(response.token, response.user);
-    return response;
+    const authResponse = normalizeAuthResponse(response);
+    saveAuth(authResponse.token, authResponse.user);
+    return authResponse;
   };
 
   const logout = () => {
@@ -74,17 +95,20 @@ export function AuthProvider({ children }) {
     });
   };
 
-  const value = {
-    token,
-    user,
-    isAuthenticated: Boolean(token && user),
-    isAdmin: user?.role === "admin",
-    login,
-    register,
-    logout,
-    updateUser,
-    markCourseEnrolled
-  };
+  const value = useMemo(
+    () => ({
+      token,
+      user,
+      isAuthenticated: Boolean(token && user),
+      isAdmin: user?.role === "admin",
+      login,
+      register,
+      logout,
+      updateUser,
+      markCourseEnrolled
+    }),
+    [token, user]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

@@ -14,7 +14,7 @@ function Navbar() {
     <header className="site-header">
       <div className="site-header__inner">
         <Link className="brand-mark" to="/">
-          <span className="brand-mark__badge">SF</span>
+          <img className="brand-mark__logo" src="/assets/logo.jpg" alt="SkillForge logo" />
           <span>
             SkillForge
             <small>Online Skill Certification Platform</small>

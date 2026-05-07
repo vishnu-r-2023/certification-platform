@@ -36,6 +36,16 @@ function CertificatePage() {
     window.print();
   };
 
+  const issuedDate = certificate?.issuedAt
+    ? new Intl.DateTimeFormat("en-US", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      }).format(new Date(certificate.issuedAt))
+    : "";
+
+  const learnerName = user?.name || "Learner";
+
   if (loading) {
     return (
       <section className="page-section">
@@ -58,46 +68,81 @@ function CertificatePage() {
   }
 
   return (
-    <section className="page-section">
-      <div className="certificate-card">
-        <div className="certificate-surface">
+    <section className="page-section certificate-page">
+      <div className="content-card certificate-toolbar no-print">
+        <div className="page-title">
           <span className="pill">Official course certificate</span>
-          <h1>Certificate of Achievement</h1>
-          <p>
-            This certifies that <span className="certificate-name">{user?.name}</span> has
-            successfully passed the assessment for the course{" "}
-            <strong>{certificate.courseTitle}</strong>.
-          </p>
-
-          <div className="certificate-meta">
-            <div>
-              <strong>Course</strong>
-              <p>{certificate.courseTitle}</p>
-            </div>
-            <div>
-              <strong>Issued At</strong>
-              <p>{new Date(certificate.issuedAt).toLocaleString()}</p>
-            </div>
-            <div>
-              <strong>Certificate ID</strong>
-              <p>{certificate.id}</p>
-            </div>
-          </div>
+          <h1>Your certificate is ready</h1>
+          <p>Review the layout below, then print it or save it as a PDF for later.</p>
         </div>
 
-        <div className="content-card" style={{ margin: "1rem" }}>
-          <p>
-            The backend returns certificate metadata as JSON, so this page renders a printable
-            certificate view and lets learners save it as PDF using the browser print dialog.
-          </p>
-
-          <div className="result-actions">
-            <button className="button button--primary" onClick={handleDownload} type="button">
-              Download / Print Certificate
-            </button>
-            <span className="muted">API URL: {certificate.certificateUrl}</span>
-          </div>
+        <div className="result-actions">
+          <Link className="button button--ghost" to={`/courses/${courseId}`}>
+            Return to Course
+          </Link>
+          <button className="button button--primary" onClick={handleDownload} type="button">
+            Download / Print Certificate
+          </button>
         </div>
+      </div>
+
+      <div className="certificate-card">
+        <article className="certificate-surface" aria-label="Printable certificate">
+          <div className="certificate-frame">
+            <div className="certificate-header">
+              <div>
+                <span className="certificate-label">SkillForge</span>
+                <p className="certificate-subtitle">Online Skill Certification Platform</p>
+              </div>
+              <div className="certificate-seal" aria-hidden="true">
+                <span>SF</span>
+              </div>
+            </div>
+
+            <div className="certificate-body">
+              <p className="certificate-kicker">Certificate of Achievement</p>
+              <h1>Certificate of Achievement</h1>
+              <p className="certificate-copy">This certificate is proudly presented to</p>
+              <p className="certificate-name">{learnerName}</p>
+              <p className="certificate-copy">
+                for successfully completing the course and meeting the assessment requirements
+                for
+              </p>
+              <h2 className="certificate-course">{certificate.courseTitle}</h2>
+              <p className="certificate-copy">
+                Awarded on <strong>{issuedDate}</strong> in recognition of demonstrated learning
+                and course completion.
+              </p>
+            </div>
+
+            <div className="certificate-footer">
+              <div className="certificate-signature">
+                <span className="certificate-signature__line" />
+                <strong>SkillForge Academy</strong>
+                <span>Issuing authority</span>
+              </div>
+
+              <div className="certificate-meta">
+                <div>
+                  <span>Issued on</span>
+                  <strong>{issuedDate}</strong>
+                </div>
+                <div>
+                  <span>Certificate ID</span>
+                  <strong>{certificate.id}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div className="content-card certificate-note no-print">
+        <p>
+          Tip: choose your browser&apos;s <strong>Save as PDF</strong> destination if you want a
+          digital copy. The raw backend API URL is intentionally hidden from this learner-facing
+          view.
+        </p>
       </div>
     </section>
   );
